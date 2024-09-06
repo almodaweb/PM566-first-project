@@ -1,0 +1,77 @@
+---
+title: "Lab 1"
+author: "Hanin Almodaweb"
+format: html
+theme: journal
+embded-resources: true
+fig-width: 6
+fig-height: 4
+---
+
+## Question 1
+1. Based on the help file, how many rows and how many columns does the `datasaurus_dozen` file have? What are the variables included in the data frame? Add your responses to your lab report, with relevant code in the associated R code chunk, and free-form text outside of the code chunk.
+
+```{r}
+library(datasauRus)
+nrow(datasaurus_dozen)
+ncol(datasaurus_dozen)
+str(datasaurus_dozen)
+```
+
+There are 1846 rows and 3 columns in the datasaurus_dozen file. The variables included in the data frame are `dataset,` `x,` and `y.`
+
+## Question 2
+2. Plot `y` vs. `x` for the `dino` dataset. Then, calculate the correlation coefficient between `x` and `y` for just this dataset.
+
+```{r}
+dino_data <- datasaurus_dozen[datasaurus_dozen$dataset == 'dino', ]
+plot(dino_data$x, dino_data$y)
+cor(dino_data$x, dino_data$y)
+```
+
+
+## Question 3
+3. Plot `y` vs. `x` for the `star` dataset, another one of the `datasaurus_dozen`. You can (and should) re-use code we introduced above, just replace the dataset name with the desired dataset. Then, calculate the correlation coefficient between `x` and `y` for this dataset. How does this value compare to the `r` of `dino`?
+
+```{r}
+star_data <- datasaurus_dozen[datasaurus_dozen$dataset == 'star', ]
+plot(star_data$x, star_data$y)
+cor(star_data$x, star_data$y)
+```
+
+The correlation coefficient for the `star` dataset (-0.0629611) is slightly less negative than that for the `dino` dataset (-0.06447185), indicating a marginally weaker negative linear relationship between x and y in the `star` dataset, though both correlations are very close to zero and suggest minimal linear association.
+
+## Question 4
+4. Plot `y` vs. `x` for the `circle` dataset. You can (and should) reuse code we introduced above, just replace the dataset name with the desired dataset. Then, calculate the correlation coefficient between `x` and `y` for this dataset. How does this value compare to the `r` of `dino`?
+
+```{r}
+circle_data <- datasaurus_dozen[datasaurus_dozen$dataset == 'circle', ]
+plot(circle_data$x, circle_data$y)
+cor(circle_data$x, circle_data$y)
+```
+
+The correlation coefficient for the `circle` dataset (-0.06834336) is slightly more negative than that for the `dino` dataset (-0.06447185), indicating a marginally stronger negative linear relationship between `x` and `y` in the `circle` dataset.
+
+## Question 5
+5. Plot all 13 datasets at once. 
+
+```{r, fig.width=12, fig.height=10}
+layout(matrix(1:16, nrow=4, ncol=4))
+for(name in unique(datasaurus_dozen$dataset)){
+  subset <- datasaurus_dozen[datasaurus_dozen$dataset == name, ]
+  plot(subset$x, subset$y, main = name)
+}
+layout(1)
+```
+
+## Question 6
+6. Calculate the correlation between the `x` and `y` variables for all 13 datasets. 
+
+```{r}
+sapply(unique(datasaurus_dozen$dataset), function(name){
+    subset <- datasaurus_dozen[datasaurus_dozen$dataset == name, ]
+    return(cor(subset$x, subset$y))
+})
+```
+
+---
